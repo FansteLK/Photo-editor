@@ -48,9 +48,7 @@ private File f;
 	}
 	public void ClearFile() 
 	{
-		 FileWriter fileOut;
-			try {
-				fileOut = new FileWriter(this.f);
+			try (FileWriter fileOut = new FileWriter(this.f)) {
 				fileOut.write("");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

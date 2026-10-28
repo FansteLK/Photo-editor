@@ -655,7 +655,7 @@ public class Gui extends JFrame implements ActionListener, ItemListener {
 		sacuvano=true;
 		String s = "";
 		try {
-			this.save("C:\\Users\\stefa\\Desktop\\novo");
+			this.save(proces.outputBase());
 		} catch (IOException e) {
 	
 		}
@@ -966,7 +966,7 @@ image_visina=yheight;
 		   BufferedImage image =  ImageIO.read(file);
 		try {
 			String s=this.getPath(1);
-			File outputfile = new File(s+"\\saved.bmp");
+			File outputfile = new File(s, "saved.bmp");
 		   ImageIO.write(image, "bmp",outputfile);  
 		} catch(IOException e) {
 	

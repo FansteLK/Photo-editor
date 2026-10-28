@@ -1,37 +1,46 @@
 package obrada_slika;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+// Runs the C++ engine on the files written by the GUI and shows the result.
 public class proces {
 
-	public proces() {
-		// TODO Auto-generated constructor stub
+	// Path of the engine executable; override with -Dphotoeditor.engine=...
+	static String enginePath() {
+		String path = System.getProperty("photoeditor.engine", "build" + File.separator + "photo-engine");
+		if (System.getProperty("os.name").startsWith("Windows") && !path.endsWith(".exe")) path += ".exe";
+		return path;
 	}
-	public static void izvrsi(files[] fajlovi,Gui g) 
-	{
-		boolean uspelo = true;
-		String file = "C:\\Users\\stefa\\Desktop\\FAKS\\Project_POOP\\Release\\Project_POOP.exe " ;
-		for (int i=0;i<4;i++) 
-		{
-			file+=fajlovi[i].getAbsPath();
-			file+=" ";
+
+	// Output path without extension; the engine writes <outputBase()>.bmp
+	static String outputBase() {
+		return new File(System.getProperty("java.io.tmpdir"), "photo-editor-output").getAbsolutePath();
+	}
+
+	public static void izvrsi(files[] fajlovi, Gui g) {
+		List<String> command = new ArrayList<>();
+		command.add(enginePath());
+		for (int i = 0; i < 3; i++) {
+			command.add(fajlovi[i].getAbsPath());
 		}
-		System.out.print(file);
-		Runtime runtime = Runtime.getRuntime();
+		command.add(outputBase());
 		try {
-			Process process = runtime.exec(file);
-			while (process.isAlive()) {
+			Process process = new ProcessBuilder(command).inheritIO().start();
+			if (process.waitFor() != 0) {
+				System.err.println("Engine failed: " + String.join(" ", command));
+				return;
 			}
-			;
-
 		} catch (IOException e) {
-			System.out.print("Greska");
-			uspelo = false;
-		}
-
-		if (!uspelo)
+			System.err.println("Cannot start the engine at " + enginePath() + ": " + e.getMessage());
 			return;
-		g.SetImage("C:\\Users\\stefa\\Desktop\\novo.bmp",0);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			return;
+		}
+		g.SetImage(outputBase() + ".bmp", 0);
 	}
 
 }

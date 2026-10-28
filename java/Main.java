@@ -34,25 +34,7 @@ public class Main {
 		
 		 s = gui.getPath(0);
 		gui.SetImage(s,1);
-	/*while(!gui.getKraj()) {
-		
-		boolean uspelo = true;
-		String file = "..\\c++\\Project_POOP.exe " + s;
-		Runtime runtime = Runtime.getRuntime();
-		try {
-			Process process = runtime.exec(file);
-			while (process.isAlive()) {
-			}
-			;
 
-		} catch (IOException e) {
-			System.out.print("Greska");
-			uspelo = false;
-		}
-
-		if (!uspelo)
-			return;
-	}*/
 	}
 
 }
