@@ -123,9 +123,10 @@ public:
 	}
 	static void Unormali(Pixel &p, int a)
 	{
-		p.Set_Crveno(abs(p.GetCrveno()) % 256);
-		p.Set_Zeleno(abs(p.GetZeleno()) % 256);
-		p.Set_Plavo(abs(p.GetPlavo()) % 256);
+		// Saturate to the 0-255 range (wrapping made bright pixels dark after e.g. adding a constant).
+		p.Set_Crveno(min(255, max(0, p.GetCrveno())));
+		p.Set_Zeleno(min(255, max(0, p.GetZeleno())));
+		p.Set_Plavo(min(255, max(0, p.GetPlavo())));
 
 	}
 	static void  UcitajKompozitnu();
