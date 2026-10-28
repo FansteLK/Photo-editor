@@ -1,7 +1,6 @@
 
 
 #include "Formatter.h"
-#include "MyFormatterr.h"
 
 
 void Formatter::output(string ime, string format, Layer l, Image * im)
@@ -15,11 +14,6 @@ void Formatter::output(string ime, string format, Layer l, Image * im)
 	else if (format == "pam")
 	{
 		PAMFFormatter::format_output(ime+".pam", l);
-	}
-	else if (format == "myf")
-	{
-		
-		MyFormatter::format_output(ime+".myf", im);
 	}
 }
 
@@ -45,11 +39,6 @@ bool Formatter::input(Layer & l, const char * input_name, string format, int sir
 
 
 		ret = PAMFFormatter::format_input(input_name, l, sirina, visina);
-	}
-	else if (format == "myf")
-	{
-	
-		ret = MyFormatter::format_input(input_name, im);
 	}
 	else 
 	{
